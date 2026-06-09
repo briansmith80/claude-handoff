@@ -47,6 +47,10 @@ foreach ($h in @($settings.hooks.SessionStart)) {
 if ($already) {
   Write-Host "SessionStart handoff hook already present - left as-is."
 } else {
+  if (Test-Path $settingsPath) {
+    Copy-Item $settingsPath "$settingsPath.bak" -Force
+    Write-Host "Backed up existing settings.json to settings.json.bak"
+  }
   $settings.hooks.SessionStart = @($settings.hooks.SessionStart) + $entry
   $json = $settings | ConvertTo-Json -Depth 12
   [System.IO.File]::WriteAllText($settingsPath, $json, (New-Object System.Text.UTF8Encoding $false))

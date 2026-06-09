@@ -24,7 +24,12 @@ if ! command -v jq >/dev/null 2>&1; then
   exit 0
 fi
 
-[ -f "$settings" ] || echo '{}' > "$settings"
+if [ -f "$settings" ]; then
+  cp "$settings" "$settings.bak"
+  echo "Backed up existing settings.json to settings.json.bak"
+else
+  echo '{}' > "$settings"
+fi
 tmp="$(mktemp)"
 jq --arg cmd "$cmd" '
   .hooks //= {} |
