@@ -1,0 +1,4 @@
+# Keep shell scripts LF so the shebang works on macOS/Linux after cloning on Windows.
+*.sh   text eol=lf
+*.ps1  text eol=crlf
+*.md   text
