@@ -1,12 +1,20 @@
 #!/usr/bin/env bash
-# Claude Code SessionStart hook (macOS/Linux): surface an existing HANDOFF.md so you
-# never forget to /catchup. Emits context only when HANDOFF.md is present in the
-# session's working directory; otherwise a no-op. Requires jq OR python3 for JSON output.
+# Claude Code SessionStart hook (macOS/Linux): surface an existing HANDOFF.md so you never
+# forget to /catchup. Looks for HANDOFF.md at the git repo root (falling back to the current
+# directory), so it fires anywhere inside the repo, not only at the root. A no-op otherwise.
+# Requires jq OR python3 for JSON output (falls back to plain text if neither is present).
 set -euo pipefail
 
-[ -f HANDOFF.md ] || exit 0
+root="$(git rev-parse --show-toplevel 2>/dev/null || true)"
+if [ -n "$root" ] && [ -f "$root/HANDOFF.md" ]; then
+  handoff="$root/HANDOFF.md"
+elif [ -f HANDOFF.md ]; then
+  handoff="HANDOFF.md"
+else
+  exit 0
+fi
 
-preview="$(head -n 30 HANDOFF.md)"
+preview="$(head -n 30 "$handoff" | tr -d '\r')"
 msg="A HANDOFF.md from a previous session exists in this repo. Run /catchup to fully resume where it left off.
 
 --- HANDOFF.md (first 30 lines) ---
