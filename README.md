@@ -2,12 +2,19 @@
 
 **Cross-session, cross-machine context handoffs for [Claude Code](https://code.claude.com).**
 
-Claude Code's built-in continuity — `--resume`, `/compact`, and automatic memory — is all
-**machine-local**. It lives in `~/.claude` on one computer and can't carry your in-progress
-work from, say, a work desktop to a home laptop. `claude-handoff` closes that gap with a
-small, git-syncable workflow: a fresh agent — on the same machine after a context wipe, or a
-*different* machine entirely — can pick up exactly where the last session stopped, without
-access to the original chat.
+`claude-handoff` lets a fresh agent pick up exactly where the last session stopped — *without*
+access to the original chat. It solves two related problems:
+
+- **Cross-session (same machine).** Context fills up, you `/compact`, or you just start a new
+  session the next morning — and the thread of *why* you made each decision is gone or buried.
+  `--resume` replays the entire noisy transcript; `/compact` is lossy and you don't control what
+  it keeps. A curated `HANDOFF.md` is a deliberate, high-signal resume point you actually choose.
+- **Cross-machine.** Claude Code's built-in continuity (`--resume`, `/compact`, automatic memory)
+  is all **machine-local** — it lives in `~/.claude` on one computer and can't carry your
+  in-progress work from, say, a work desktop to a home laptop.
+
+The fix for both is the same: a small, git-syncable workflow that distills a session into a
+curated handoff note, so any later session — same machine or a different one — resumes fast.
 
 ---
 
@@ -37,6 +44,11 @@ The core idea: separate the **tooling** from the **handoff notes**.
 └─────────────────────────────────────────────────┘
 ```
 
+*Same machine, new session?* Identical loop, minus the git hop: `/handoff` at the end of one
+session, `/catchup` at the start of the next. You don't even need to commit — the `HANDOFF.md`
+sitting in your working tree is enough (committing just adds durability and is what carries it to
+another machine).
+
 ### The three pieces
 
 | Piece | Type | What it does |
@@ -65,9 +77,11 @@ When you run `/handoff` (optionally `/handoff <focus or title>`), the skill:
 6. **Optionally folds in machine-local memory** — salient, still-true notes from
    `~/.claude/projects/<project>/memory/MEMORY.md` get pulled into "Context & Gotchas" so they
    cross machines too.
-7. **Reports and offers to sync** — prints the path and a short summary, then asks before
-   doing `git add` / `commit` / `push`. **It never commits or pushes without explicit
-   confirmation.**
+7. **Commits and pushes automatically** — stages `HANDOFF.md` + `.handoffs/`, commits with a
+   `chore(handoff): …` message, and pushes the current branch (setting upstream if needed). It
+   then reports the commit hash and confirms the push, or surfaces the exact error if it failed.
+   The step-3 security gate is what keeps auto-push safe — if there's any doubt the handoff is
+   secret-free, the skill stops and flags it instead of pushing.
 
 ### `/catchup` in detail
 
@@ -148,8 +162,7 @@ skills are live immediately (skills hot-reload).
 ## Usage
 
 1. **Wrapping up / context filling / before switching machines:** run `/handoff` (optionally
-   `/handoff <focus>`). Review the `HANDOFF.md` it writes; say yes when it offers to commit +
-   push.
+   `/handoff <focus>`). It writes the `HANDOFF.md`, then commits and pushes it automatically.
 2. **New session or other machine:** `git pull`, then run `/catchup`.
 
 That's the whole loop. The SessionStart hook will remind you to run `/catchup` whenever you open

@@ -49,10 +49,12 @@ Optional focus from the user: $ARGUMENTS
    (`~/.claude/projects/<project>/memory/MEMORY.md`), pull only the salient, still-true bits
    into "Context & Gotchas" so those notes also cross machines. Skip anything stale.
 
-6. **Report & offer to sync.** Print the path written and a 3-line summary. Then ask:
-   "Commit and push this handoff on branch `<branch>`? (recommended so it reaches your other
-   machine)". Only if the user agrees:
+6. **Commit and push automatically.** Syncing is the expected end state of this skill — do it
+   without asking. The step-2 security gate is what makes this safe, so honor it strictly: if you
+   have ANY doubt that the handoff is secret-free, stop and flag it instead of pushing.
    - `git add HANDOFF.md .handoffs/`
    - `git commit -m "chore(handoff): <branch> — <short status>"`
-   - `git push`
-   NEVER commit or push without explicit confirmation.
+   - `git push` — if the current branch has no upstream, use `git push -u origin <branch>`.
+   Then print the `HANDOFF.md` path, a 3-line summary, the commit hash, and confirm the push
+   succeeded. If the push fails (e.g. rejected, needs a pull, no remote), surface the exact error
+   and the suggested fix — do NOT silently leave it uncommitted.
