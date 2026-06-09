@@ -117,6 +117,8 @@ claude-handoff/
 ├── README.md
 ├── install.ps1                      # Windows installer
 ├── install.sh                       # macOS / Linux installer
+├── update.ps1                       # Windows: git pull + re-install in one step
+├── update.sh                        # macOS / Linux: git pull + re-install in one step
 ├── .gitignore
 ├── .gitattributes                   # forces LF on *.sh, CRLF on *.ps1
 ├── hooks/
@@ -154,8 +156,22 @@ After installing, open `/hooks` in Claude Code once (this reloads config) or res
 only registers in sessions that started *after* it existed. The `/handoff` and `/catchup`
 skills are live immediately (skills hot-reload).
 
-> **Note:** the installer copies the tooling into `~/.claude`. Updating means
-> `git pull` in this repo, then re-running the installer.
+### Updating
+
+The installer copies the tooling into `~/.claude`, so a `git pull` alone is **not** enough — you
+must re-run the installer to push changes into `~/.claude`. The `update` script does both in one
+step (run it from inside the cloned repo, from anywhere):
+
+```powershell
+.\update.ps1          # Windows
+```
+```bash
+bash ./update.sh      # macOS / Linux
+```
+
+It pulls the latest (fast-forward only) and re-runs the installer. Skills hot-reload, so the
+updated `/handoff` / `/catchup` are active immediately; only hook *changes* need a `/hooks` reload
+or a restart.
 
 ---
 
