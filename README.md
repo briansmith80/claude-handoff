@@ -1,6 +1,19 @@
+<div align="center">
+
 # claude-handoff
 
 **Cross-session, cross-machine context handoffs for [Claude Code](https://code.claude.com).**
+
+[![Version](https://img.shields.io/github/v/tag/briansmith80/claude-handoff?label=version&sort=semver&color=blue)](https://github.com/briansmith80/claude-handoff/blob/main/CHANGELOG.md)
+[![License: MIT](https://img.shields.io/github/license/briansmith80/claude-handoff?color=green)](LICENSE)
+![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-555)
+[![Made for Claude Code](https://img.shields.io/badge/made%20for-Claude%20Code-d97757)](https://code.claude.com)
+
+*Hand a fresh session everything it needs to continue, on this machine or another.*
+
+</div>
+
+---
 
 `claude-handoff` lets a fresh agent pick up exactly where the last session stopped, *without*
 access to the original chat. It solves two related problems:
@@ -15,6 +28,11 @@ access to the original chat. It solves two related problems:
 
 The fix for both is the same: a small, git-syncable workflow that distills a session into a
 curated handoff note, so any later session, same machine or a different one, resumes fast.
+
+**Contents:** [How it works](#how-it-works) · [Repository layout](#repository-layout) ·
+[Install](#install) · [Updating](#updating) · [Uninstall](#uninstall) · [Usage](#usage) ·
+[Manual hook setup](#manual-hook-setup) · [Troubleshooting](#troubleshooting) ·
+[Notes & conventions](#notes--conventions) · [Changelog](#changelog) · [License](#license)
 
 ---
 
@@ -124,6 +142,7 @@ and never re-litigate already-settled decisions.
 ```
 claude-handoff/
 ├── README.md
+├── CHANGELOG.md                     # release history
 ├── LICENSE                          # MIT
 ├── install.ps1                      # Windows installer
 ├── install.sh                       # macOS / Linux installer
@@ -274,6 +293,12 @@ macOS/Linux), add this under `hooks` in `~/.claude/settings.json` yourself:
   writes, commits, or pushes anything. All git mutations happen only inside `/handoff` (which
   commits and pushes automatically, gated by its secret-safety check); the hook and `/catchup`
   never write, commit, or push.
+
+---
+
+## Changelog
+
+Release history lives in [CHANGELOG.md](CHANGELOG.md).
 
 ---
 
