@@ -1,8 +1,10 @@
 <div align="center">
 
-# claude-handoff
-
-**Cross-session, cross-machine context handoffs for [Claude Code](https://code.claude.com).**
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/banner-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="docs/assets/banner-light.svg">
+  <img src="docs/assets/banner-dark.svg" alt="claude-handoff: cross-session, cross-machine context handoffs for Claude Code" width="830">
+</picture>
 
 [![Version](https://img.shields.io/github/v/tag/briansmith80/claude-handoff?label=version&sort=semver&color=blue)](https://github.com/briansmith80/claude-handoff/blob/main/CHANGELOG.md)
 [![License: MIT](https://img.shields.io/github/license/briansmith80/claude-handoff?color=green)](LICENSE)
@@ -46,26 +48,27 @@ The core idea: separate the **tooling** from the **handoff notes**.
   committed there. Because it rides in the project repo, the notes and the exact code they
   describe travel together: pull on another machine and both arrive in sync.
 
-```
-┌─────────────── Machine A (work) ───────────────┐
-│  Session running low on context / end of day   │
-│  → /handoff  →  writes HANDOFF.md in your repo  │
-│             →  commits + pushes automatically   │
-└─────────────────────────────────────────────────┘
-                       │  git
-                       ▼
-┌─────────────── Machine B (home) ───────────────┐
-│  git pull                                       │
-│  SessionStart hook spots HANDOFF.md, nudges you │
-│  → /catchup  →  reads HANDOFF.md + git state    │
-│             →  re-hydrates, resumes work        │
-└─────────────────────────────────────────────────┘
+```mermaid
+flowchart TB
+    subgraph A["Machine A (work)"]
+        A1["Session low on context / end of day"] --> A2["/handoff"]
+        A2 --> A3["writes HANDOFF.md at the repo root,<br>commits + pushes automatically"]
+    end
+    A3 -->|git| B1
+    subgraph B["Machine B (home)"]
+        B1["git pull"] --> B2["SessionStart hook spots HANDOFF.md,<br>nudges you to /catchup"]
+        B2 --> B3["/catchup reads HANDOFF.md + git state,<br>re-hydrates, resumes work"]
+    end
 ```
 
 *Same machine, new session?* Identical loop, minus the git hop: `/handoff` at the end of one
 session, `/catchup` at the start of the next. You don't even need to commit; the `HANDOFF.md`
 sitting in your working tree is enough (committing just adds durability and is what carries it to
 another machine).
+
+<div align="center">
+  <img src="docs/assets/terminal-demo.svg" alt="Terminal demo: /handoff archives the prior handoff, writes and secret-scans HANDOFF.md, and pushes it; on the other machine the SessionStart hook nudges /catchup, which briefs the new session" width="830">
+</div>
 
 ### The three pieces
 
@@ -144,6 +147,8 @@ claude-handoff/
 ├── README.md
 ├── CHANGELOG.md                     # release history
 ├── LICENSE                          # MIT
+├── docs/
+│   └── assets/                      # README images (banner, terminal demo)
 ├── install.ps1                      # Windows installer
 ├── install.sh                       # macOS / Linux installer
 ├── update.ps1                       # Windows: git pull + re-install in one step

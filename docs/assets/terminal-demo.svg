@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 820" width="1200" height="820" role="img" aria-label="Terminal demo: /handoff on the work machine writes and pushes HANDOFF.md, then /catchup on the home machine restores the session.">
+  <g font-family="ui-monospace, 'Cascadia Code', Consolas, 'SF Mono', Menlo, monospace" font-size="18">
+
+    <!-- ====== window 1: machine A (work) ====== -->
+    <rect x="40" y="32" width="1120" height="284" rx="14" fill="#0d1117"/>
+    <path d="M40 76 L40 46 Q40 32 54 32 L1146 32 Q1160 32 1160 46 L1160 76 Z" fill="#161b22"/>
+    <line x1="41" y1="76.5" x2="1159" y2="76.5" stroke="#30363d" stroke-width="1"/>
+    <rect x="40" y="32" width="1120" height="284" rx="14" fill="none" stroke="#30363d" stroke-width="1"/>
+    <circle cx="64" cy="54" r="6.5" fill="#ff5f57"/>
+    <circle cx="86" cy="54" r="6.5" fill="#febc2e"/>
+    <circle cx="108" cy="54" r="6.5" fill="#28c840"/>
+    <text x="600" y="59" text-anchor="middle" fill="#8b949e" font-size="13.5">machine A &#183; work</text>
+
+    <text x="80" y="112" fill="#8b949e" font-size="13" letter-spacing="1.5">END OF DAY</text>
+    <line x1="195" y1="107" x2="1120" y2="107" stroke="#30363d" stroke-width="1"/>
+
+    <text x="80" y="150" fill="#d97757">&gt; <tspan font-weight="700">/handoff</tspan></text>
+    <text x="80" y="180"><tspan fill="#58a6ff">*</tspan><tspan fill="#e6edf3"> Archived previous handoff to .handoffs/20260610T173207Z-prev.md</tspan></text>
+    <text x="80" y="210"><tspan fill="#58a6ff">*</tspan><tspan fill="#e6edf3"> Wrote HANDOFF.md </tspan><tspan fill="#8b949e">(secret scan: </tspan><tspan fill="#28c840">clean</tspan><tspan fill="#8b949e">)</tspan></text>
+    <text x="80" y="240"><tspan fill="#58a6ff">*</tspan><tspan fill="#e6edf3"> Pushed to origin/feature-auth, commit a1b2c3d</tspan></text>
+    <text x="102" y="270" fill="#8b949e">Review: open HANDOFF.md or run git show a1b2c3d</text>
+
+    <!-- ====== connector: git carries the handoff across ====== -->
+    <line x1="600" y1="328" x2="600" y2="358" stroke="#d97757" stroke-width="2" stroke-dasharray="3 5" stroke-linecap="round"/>
+    <polygon points="592,360 608,360 600,372" fill="#d97757"/>
+    <text x="622" y="353" fill="#8b949e" font-size="13">HANDOFF.md syncs through git</text>
+
+    <!-- ====== window 2: machine B (home) ====== -->
+    <rect x="40" y="380" width="1120" height="408" rx="14" fill="#0d1117"/>
+    <path d="M40 424 L40 394 Q40 380 54 380 L1146 380 Q1160 380 1160 394 L1160 424 Z" fill="#161b22"/>
+    <line x1="41" y1="424.5" x2="1159" y2="424.5" stroke="#30363d" stroke-width="1"/>
+    <rect x="40" y="380" width="1120" height="408" rx="14" fill="none" stroke="#30363d" stroke-width="1"/>
+    <circle cx="64" cy="402" r="6.5" fill="#ff5f57"/>
+    <circle cx="86" cy="402" r="6.5" fill="#febc2e"/>
+    <circle cx="108" cy="402" r="6.5" fill="#28c840"/>
+    <text x="600" y="407" text-anchor="middle" fill="#8b949e" font-size="13.5">machine B &#183; home</text>
+
+    <text x="80" y="460" fill="#8b949e" font-size="13" letter-spacing="1.5">NEXT MORNING</text>
+    <line x1="215" y1="455" x2="1120" y2="455" stroke="#30363d" stroke-width="1"/>
+
+    <text x="80" y="498"><tspan fill="#d97757">$</tspan><tspan fill="#e6edf3"> git pull</tspan></text>
+    <text x="80" y="528"><tspan fill="#d97757">$</tspan><tspan fill="#e6edf3"> claude</tspan></text>
+    <text x="80" y="558"><tspan fill="#58a6ff">*</tspan><tspan fill="#e6edf3"> A HANDOFF.md from a previous session exists in this repo. Run </tspan><tspan fill="#d97757" font-weight="700">/catchup</tspan><tspan fill="#e6edf3"> to resume.</tspan></text>
+    <text x="80" y="588" fill="#d97757">&gt; <tspan font-weight="700">/catchup</tspan></text>
+    <text x="80" y="618"><tspan fill="#58a6ff">*</tspan><tspan fill="#e6edf3" font-weight="700"> Objective:</tspan><tspan fill="#e6edf3"> ship the OAuth login flow</tspan></text>
+    <text x="80" y="648"><tspan fill="#58a6ff">*</tspan><tspan fill="#e6edf3" font-weight="700"> Status:</tspan><tspan fill="#e6edf3"> token refresh verified; logout flow half-built</tspan></text>
+    <text x="80" y="678"><tspan fill="#58a6ff">*</tspan><tspan fill="#e6edf3" font-weight="700"> Blockers:</tspan><tspan fill="#e6edf3"> none</tspan></text>
+    <text x="80" y="708"><tspan fill="#58a6ff">*</tspan><tspan fill="#e6edf3" font-weight="700"> Next:</tspan><tspan fill="#e6edf3"> wire refresh into the session middleware</tspan></text>
+    <text x="102" y="738" fill="#8b949e">Want me to start on step 1?</text>
+    <text x="80" y="768" fill="#d97757">&gt;</text>
+    <rect x="102" y="753" width="11" height="19" fill="#d97757" opacity="0.85"/>
+  </g>
+</svg>
