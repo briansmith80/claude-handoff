@@ -148,7 +148,7 @@ claude-handoff/
 ├── CHANGELOG.md                     # release history
 ├── LICENSE                          # MIT
 ├── docs/
-│   └── assets/                      # README images (banner, terminal demo)
+│   └── assets/                      # README images + social preview card
 ├── install.ps1                      # Windows installer
 ├── install.sh                       # macOS / Linux installer
 ├── update.ps1                       # Windows: git pull + re-install in one step
